@@ -51,12 +51,9 @@ jobs:
           password: ${{ secrets.SERVER_PASS }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           source: "*.jar"
-          # Step 2에서 생성한 배포 폴더로 복사
-          target: "/home/${{ secrets.SERVER_USER }}/app"
-          # 파일 이름을 app.jar로 고정 (관리 용이)
-          rename: "app.jar"
+          target: "/home/${{ secrets.SERVER_USER }}/app/app.jar"
 
-      # 3. 서버 접속 및 무중단 롤링 배포 실행 (SSH)
+
       - name: Rolling Deploy
         uses: appleboy/ssh-action@master
         with:
