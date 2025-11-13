@@ -31,7 +31,6 @@ jobs:
           path: target/*.jar
 
   deploy:
-    # build 잡이 성공해야 deploy 잡 실행
     needs: build
     runs-on: ubuntu-latest
 
