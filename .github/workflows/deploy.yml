@@ -1,8 +1,8 @@
 name: Github Actions 싫행시켜보기
 
 on:
-   `  :
-    branches:
+   push:
+      branches:
       - main
 
 jobs:
@@ -12,7 +12,12 @@ jobs:
     steps:
       - name: Hello world 찍기
         run: echo "Hello World"
+
       - name: 여러 명령어 문장 작성하기
         run: | 
           echo "Good"
           echo "Morning"
+
+      - name: github actions 자체에 저장되어있는 변수 사용해보기
+        run: |
+          ech
