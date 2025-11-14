@@ -31,6 +31,7 @@
         <!-- [삭제] <spring-ai.version>1.0.3</spring-ai.version> -->
         <!-- [삭제] <spring-cloud.version>2025.0.0</spring-cloud.version> -->
         <spring-modulith.version>1.4.4</spring-modulith.version>
+        <hibernate.version>6.6.1.Final</hibernate.version>
     </properties>
     <dependencies>
 
@@ -52,6 +53,16 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
 
