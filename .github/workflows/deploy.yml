@@ -31,7 +31,8 @@ jobs:
         run: ./mvnw clean package
 
       - name: Run SonarQube Analysis
-        run: ./mvnw sonar:sonar \
+        run: |
+            ./mvnw sonar:sonar \
             -Dsonar.projectKey=be12-team2_book-service \
             -Dsonar.host.url=http://s4.java21.net:9000/ \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
