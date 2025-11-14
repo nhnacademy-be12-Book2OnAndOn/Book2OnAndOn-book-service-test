@@ -28,8 +28,6 @@
     </scm>
     <properties>
         <java.version>21</java.version>
-        <!-- [삭제] <spring-ai.version>1.0.3</spring-ai.version> -->
-        <!-- [삭제] <spring-cloud.version>2025.0.0</spring-cloud.version> -->
         <spring-modulith.version>1.4.4</spring-modulith.version>
         <hibernate.version>6.6.1.Final</hibernate.version>
     </properties>
@@ -179,7 +177,6 @@
                 </executions>
             </plugin>
 
-            <!-- 2. SonarQube 플러그인 설정 (분석에 필요한 정보) -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
