@@ -28,3 +28,4 @@ jobs:
           cd ~
           chmod +x deploy.sh
           ./deploy.sh
+          
