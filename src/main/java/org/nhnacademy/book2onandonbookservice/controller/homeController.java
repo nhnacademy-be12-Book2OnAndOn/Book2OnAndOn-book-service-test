@@ -8,7 +8,7 @@ public class homeController {
 
     @GetMapping("/")
     public String check(){
-        return "Server is running why no???????!!!!!!";
+        return "Server is running why no";
     }
     @GetMapping("/test/api")
     public String check2(){
