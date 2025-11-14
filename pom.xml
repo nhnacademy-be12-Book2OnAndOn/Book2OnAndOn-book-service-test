@@ -144,13 +144,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- [삭제] GraalVM Native Image 플러그인 (지금 필요하지 않을 가능성이 높음) -->
-            <!--
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-            </plugin>
-            -->
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -167,28 +161,22 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version> <!-- 최신 버전을 사용하세요 -->
+                <version>0.8.12</version>
                 <executions>
                     <execution>
-                        <id>prepare-agent</id>
+                        <id>jacoco-initialize</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase> <!-- 'package' 단계에서 리포트 생성 -->
+                        <id>jacoco-site</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <formats>
-                        <format>XML</format> <!-- SonarQube가 읽을 XML 리포트 생성 -->
-                    </formats>
-                    <outputDirectory>${project.build.directory}/site/jacoco</outputDirectory>
-                </configuration>
             </plugin>
 
             <!-- 2. SonarQube 플러그인 설정 (분석에 필요한 정보) -->
