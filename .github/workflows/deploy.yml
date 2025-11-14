@@ -27,5 +27,5 @@ jobs:
         run: |
           cd ~
           chmod +x deploy.sh
-          ./deploy.sh
+          ./deploy.sh /usr/local/java/java21
           
