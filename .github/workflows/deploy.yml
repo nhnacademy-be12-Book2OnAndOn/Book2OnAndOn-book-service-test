@@ -21,7 +21,7 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn clean package -DskipTests
+        run: ./mvnw clean package -DskipTests
 
       # Rename artifact 부분 삭제!
 
