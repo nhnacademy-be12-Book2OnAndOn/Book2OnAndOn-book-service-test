@@ -141,6 +141,40 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version> <!-- 최신 버전을 사용하세요 -->
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase> <!-- 'package' 단계에서 리포트 생성 -->
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <formats>
+                        <format>XML</format> <!-- SonarQube가 읽을 XML 리포트 생성 -->
+                    </formats>
+                    <outputDirectory>${project.build.directory}/site/jacoco</outputDirectory>
+                </configuration>
+            </plugin>
+
+            <!-- 2. SonarQube 플러그인 설정 (분석에 필요한 정보) -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>4.0.0.4121</version>
+            </plugin>
         </plugins>
     </build>
 

@@ -27,11 +27,17 @@ jobs:
         run: chmod +x mvnw
 
       # 5. GitHub VM 안에서 Maven 빌드를 실행해 JAR 파일을 생성합니다.
-      - name: Build with Maven
-        run: ./mvnw clean package -DskipTests
+      - name: Build and Generate Coverage Report
+        run: ./mvnw clean package
 
-      # 6. (scp) 빌드된 JAR 파일을 님의 서버로 복사(전송)합니다.
-      #    이 단계는 위에서 등록한 Secret을 사용합니다.
+      - name: Run SonarQube Analysis
+        run: ./mvnw sonar:sonar \
+            -Dsonar.projectKey=be12-team2_book-service \
+            -Dsonar.host.url=http://s4.java21.net:9000/ \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.java.binaries=target/classes \
+            -Dsonar.coverage.jacoco.xmlReportPath=target/site/jacoco/jacoco.xml
+
       - name: SCP JAR to Server
         uses: appleboy/scp-action@master
         with:
@@ -40,8 +46,8 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           source: "target/Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar"
-          target: "/home/backend/be12-team2" # 서버의 $HOME 경로
-          strip_components: 1 # 'target/' 폴더 구조를 제외하고 JAR 파일만 보냅니다.
+          target: "/home/backend/be12-team2"
+          strip_components: 1
 
       # 7. (ssh) 님의 서버에 원격 접속해서 deploy.sh를 실행시킵니다.
       - name: Run Deploy Script on Server
@@ -52,13 +58,14 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            # deploy.sh 스크립트가 있는 $HOME으로 이동합니다.
             cd /home/backend/be12-team2 
-            
-            # 서버에 원래 있던 deploy-service.sh를 실행합니다.
-            # 이제 ssh 세션이 끊어져도 'disown' 때문에 프로세스가 죽지 않습니다.
             chmod +x ./deploy-service.sh
-            ./deploy-service.sh "Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar" 10421 10422 "default"
+              
+            # [수정됨] $1=JAVA_HOME, $2=JAR_NAME, $3=PORT1, $4=PORT2
+            ./deploy-service.sh /usr/local/java/java21 \
+                                "Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar" \
+                                10421 \
+                                10422
             
           
           
