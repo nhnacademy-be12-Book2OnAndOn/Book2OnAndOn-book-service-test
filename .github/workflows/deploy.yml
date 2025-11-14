@@ -2,27 +2,42 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, master ]
-  workflow_dispatch:
+    branches: [ main, master ]  # main 또는 master 브랜치에 푸시될 때 실행
+  workflow_dispatch:          # 수동으로 실행할 수 있도록 함
 
 jobs:
   build-and-deploy:
+    # GitHub Secrets에 등록된 self-hosted 러너에서 실행
     runs-on: self-hosted
 
     steps:
+      # 1. GitHub 리포지토리의 코드를 Runner로 가져옴
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2. JDK 21 설치
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3. mvnw 실행 권한 부여
       - name: Set permissions
         run: chmod +x mvnw
 
+      # 4. Maven으로 프로젝트 빌드 (테스트 스킵)
       - name: Build with Maven
         run: ./mvnw clean package -DskipTests
 
+      # 5. 빌드된 .jar 파일을 홈 디렉터리로 복사
+      # deploy.sh 스크립트가 이 파일을 찾을 수 있도록 함
       - name: Copy jar file
         run: |
           cp target/Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar ~/Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar
 
+      # 6. 배포 스크립트 실행
       - name: Deploy
         run: |
           cd ~
