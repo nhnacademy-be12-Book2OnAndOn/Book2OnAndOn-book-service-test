@@ -2,43 +2,26 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, master ]  # main 또는 master 브랜치에 푸시될 때 실행
-  workflow_dispatch:          # 수동으로 실행할 수 있도록 함
+    branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
-    # GitHub Secrets에 등록된 self-hosted 러너에서 실행
-    runs-on: self-hosted
+    runs-on: self-hosted  # 여기가 중요!
 
     steps:
-      # 1. GitHub 리포지토리의 코드를 Runner로 가져옴
       - name: Checkout code
         uses: actions/checkout@v3
 
-
-
-      # 3. mvnw 실행 권한 부여
-      - name: Set permissions
-        run: chmod +x mvnw
-
-      # 4. Maven으로 프로젝트 빌드 (테스트 스킵)
       - name: Build with Maven
-        run: ./mvnw clean package -DskipTests
+        run: mvn clean package -DskipTests
 
-      # 5. 빌드된 .jar 파일을 홈 디렉터리로 복사
-      # deploy.sh 스크립트가 이 파일을 찾을 수 있도록 함
       - name: Copy jar file
         run: |
-          cp target/Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar /home/backend/be12-team2/Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar
+          cp target/Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar ~/
 
-      - name: Verify copied jar file
-        run: |
-          echo "Verifying file in home directory:"
-          ls -l ~/Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar
-
-      # 6. 배포 스크립트 실행
       - name: Deploy
         run: |
           cd ~
-          chmod +x /home/be12-team2/deploy.sh
-          /home/be12-team2/deploy.sh $JAVA_HOME
+          chmod +x deploy.sh
+          ./deploy.sh
