@@ -10,5 +10,9 @@ public class homeController {
     public String check(){
         return "Server is running why no???????!!!!!!";
     }
+    @GetMapping("/test/api")
+    public String check2(){
+        return "test server";
+    }
 
 }
