@@ -41,9 +41,10 @@ jobs:
         run: |
           echo "Verifying file in home directory:"
           ls -l ~/Book2OnAndOn-book-service-0.0.1-SNAPSHOT.jar
+
       # 6. 배포 스크립트 실행
       - name: Deploy
         run: |
           cd ~
-          chmod +x deploy.sh
-          /deploy.sh $JAVA_HOME
+          chmod +x /home/be12-team2/deploy.sh
+          /home/be12-team2/deploy.sh $JAVA_HOME
