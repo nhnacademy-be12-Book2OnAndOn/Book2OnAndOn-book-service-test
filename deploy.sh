@@ -69,12 +69,12 @@ if [  -f "$LOG_PATH" ]; then
     	mv $LOG_PATH ${LOG_PATH}.old
 fi
 # 'java' 대신 '$JAVA_CMD' 사용, '>>' (append) 사용
-nohup $JAVA_CMD -jar \
+nohup setsid $JAVA_CMD -jar \
     -Dspring.profiles.active=$PROFILE \
     -Dserver.port=$NEW_PORT \
     $JAR_PATH >> $LOG_PATH 2>&1 &
 
-NEW_PID=$!
+NEW_PID=$(pgrep -f "java.*$JAR_FILE_NAME.*$NEW_PORT")
 echo "새 애플리케이션 PID: $NEW_PID"
 
 # 7. Health check (최대 60초 대기)
