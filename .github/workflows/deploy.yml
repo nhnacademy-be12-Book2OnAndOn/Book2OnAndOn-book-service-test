@@ -58,6 +58,6 @@ jobs:
             # 서버에 원래 있던 deploy.sh를 실행합니다.
             # 이제 ssh 세션이 끊어져도 'disown' 때문에 프로세스가 죽지 않습니다.
             chmod +x ./deploy.sh
-            deploy-service.sh "github-action-test-0.0.1-SNAPSHOT.jar" 10423 10424 "default"
+            deploy-service.sh "github-action-test-0.0.1-SNAPSHOT.jar" 10421 10422 "default"
             
             
